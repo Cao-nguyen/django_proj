@@ -78,7 +78,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'courses',
-        'USER': 'admin',
+        'USER': 'root',
         'PASSWORD': 'Admin@123',
         'LOCALHOST': ''
     }
@@ -123,5 +123,5 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
+MEDIA_ROOT = '%s/courses/static/' % BASE_DIR
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
