@@ -6,6 +6,15 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to="uploads/%y/%m")
 
 
+class BaseModels(models.Model):
+    subject = models.CharField(max_length=100, null=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True, null=False)
 
@@ -13,11 +22,8 @@ class Category(models.Model):
         return self.name
 
 
-class Course(models.Model):
-    subject = models.CharField(max_length=100, null=False)
+class Course(BaseModels):
     description = models.CharField(max_length=255, null=True, blank=True)
-    created_date = models.DateTimeField(auto_now_add=True)
-    update_date = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to="courses/%Y/%m")
     active = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
@@ -27,17 +33,24 @@ class Course(models.Model):
 
     class Meta:
         unique_together = ("subject", "category")
+        ordering = ['-id']
 
 
-class Lesson(models.Model):
-    subject = models.CharField(max_length=255)
+class Lesson(BaseModels):
     content = models.TextField()
     image = models.ImageField(upload_to="lessons/%Y/%m")
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name="lessons", on_delete=models.CASCADE)
+    tags = models.ManyToManyField('Tag', related_name="lessons", blank=True, null=True)
+
+    def __str__(self):
+        return self.subject
 
     class Meta:
-        unique_together = ("subject", "category")
+        unique_together = ("subject", "course")
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
