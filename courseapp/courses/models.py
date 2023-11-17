@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from ckeditor.fields import RichTextField
 
 
 class User(AbstractUser):
@@ -24,7 +25,7 @@ class Category(models.Model):
 
 class Course(BaseModels):
     description = models.CharField(max_length=255, null=True, blank=True)
-    image = models.ImageField(upload_to="courses/%Y/%m")
+    image = models.ImageField(upload_to="images/courses/%Y/%m")
     active = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
@@ -37,8 +38,8 @@ class Course(BaseModels):
 
 
 class Lesson(BaseModels):
-    content = models.TextField()
-    image = models.ImageField(upload_to="lessons/%Y/%m")
+    content = RichTextField()
+    image = models.ImageField(upload_to="images/lesson/%Y/%m")
     course = models.ForeignKey(Course, related_name="lessons", on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag', related_name="lessons", blank=True, null=True)
 
