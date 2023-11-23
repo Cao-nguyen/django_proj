@@ -1,0 +1,54 @@
+{% extends 'admin/base_site.html'%}
+
+{% block content%}
+<h1>Day la trang admin thong ke</h1>
+<h2>Co tat ca {{ count_course }} khoa hoc</h2>
+<ul>
+    {%for c in stats%}
+    <li>Khoa hoc co ten: {{c.subject}} co <b>{{c.lesson_count}} bai hoc</b></li>
+    {%endfor%}
+</ul>
+<canvas id="myChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  let labels = []
+  let data = []
+
+  {% for c in stats%}
+  labels.push('{{c.subject}}')
+  data.push('{{c.lesson_count}}')
+  {%endfor%}
+
+  console.log(labels)
+  window.onload = () => {
+      const ctx = document.getElementById('myChart');
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '#So luong',
+            data: data,
+            borderWidth: 1,
+            backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)'
+            ]
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+  }
+
+</script>
+{%endblock%}

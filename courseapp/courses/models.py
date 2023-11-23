@@ -34,11 +34,11 @@ class Course(BaseModels):
 
     class Meta:
         unique_together = ("subject", "category")
-        ordering = ['-id']
+        ordering = ['id']
 
 
 class Lesson(BaseModels):
-    content = RichTextField()
+    content = RichTextField(null=True)
     image = models.ImageField(upload_to="images/lesson/%Y/%m")
     course = models.ForeignKey(Course, related_name="lessons", on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag', related_name="lessons", blank=True, null=True)
