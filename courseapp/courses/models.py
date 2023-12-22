@@ -25,7 +25,7 @@ class Category(models.Model):
 
 class Course(BaseModels):
     description = models.CharField(max_length=255, null=True, blank=True)
-    image = models.ImageField(upload_to="images/courses/%Y/%m")
+    image = models.ImageField(upload_to="images/courses/%Y/%m", null=True)
     active = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
