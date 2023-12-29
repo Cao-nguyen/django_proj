@@ -15,6 +15,7 @@ def index(request):
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.filter(active=True)
     serializer_class = CourseSerializer
+    # permission_classes = [permissions.IsAuthenticated]
 
     @action(methods=['put'], detail=True)
     def hide_course(self, request, pk):
@@ -28,13 +29,19 @@ class CourseViewSet(viewsets.ModelViewSet):
         serializer = CourseSerializer(c)
         return Response(data=serializer.data)
 
+    # def get_permissions(self):
+    #     if self.action == 'list':
+    #         return [permissions.AllowAny()]
+    #
+    #     return [permissions.IsAuthenticated()]
+
+
+class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPIView, generics.ListAPIView):
+    queryset = User.objects.filter(is_active=True)
+    serializer_class = UserSerializer
+
     def get_permissions(self):
-        if self.action == 'list':
+        if self.action == "list":
             return [permissions.AllowAny()]
 
         return [permissions.IsAuthenticated()]
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.filter(is_active=True)
-    serializer_class = UserSerializer

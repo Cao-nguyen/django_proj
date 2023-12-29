@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from ckeditor.fields import RichTextField
 
-
 class User(AbstractUser):
     avatar = models.ImageField(upload_to="uploads/%y/%m")
 
@@ -41,7 +40,7 @@ class Lesson(BaseModels):
     content = RichTextField(null=True)
     image = models.ImageField(upload_to="images/lesson/%Y/%m")
     course = models.ForeignKey(Course, related_name="lessons", on_delete=models.CASCADE)
-    tags = models.ManyToManyField('Tag', related_name="lessons", blank=True, null=True)
+    tags = models.ManyToManyField('Tag', related_name="lessons")
 
     def __str__(self):
         return self.subject

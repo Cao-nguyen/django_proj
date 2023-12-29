@@ -28,7 +28,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',  # upload image in richtextbox
     'rest_framework',
-    'oauth2_provider'
-]
+    'oauth2_provider',
+    'drf_yasg'
+)
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
