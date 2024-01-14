@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework import viewsets, permissions, generics
+from rest_framework import viewsets, permissions, generics, parsers
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import views
+from .paginator import CoursesPaginator
 from .models import Course, User
-from .serializers import CourseSerializer, UserSerializer
+from .serializers import CourseSerializer, UserSerializer, LessonSerializer
 
 
 def index(request):
@@ -15,6 +15,8 @@ def index(request):
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.filter(active=True)
     serializer_class = CourseSerializer
+    pagination_class = CoursesPaginator
+
     # permission_classes = [permissions.IsAuthenticated]
 
     @action(methods=['put'], detail=True)
@@ -35,13 +37,31 @@ class CourseViewSet(viewsets.ModelViewSet):
     #
     #     return [permissions.IsAuthenticated()]
 
+    def get_queryset(self):
+        queries = self.queryset
+
+        q = self.request.query_params.get('q')
+        if q:
+            queries = queries.filter(subject__icontains=q)
+
+        return queries
+
+    @action(methods=['get'], detail=True)
+    def lessons(self, request, pk):
+        lessons = self.get_object().lessons.all()
+
+        return Response(LessonSerializer(lessons, many=True, context={'request': request}).data)
+
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPIView, generics.ListAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
+    parser_classes = [parsers.MultiPartParser]
+    permission_classes = [permissions.IsAuthenticated]
 
-    def get_permissions(self):
-        if self.action == "list":
-            return [permissions.AllowAny()]
+    # def get_permissions(self):
+    #     if self.action == "list":
+    #         return [permissions.AllowAny()]
+    #
+    #     return [permissions.IsAuthenticated(), ]
 
-        return [permissions.IsAuthenticated()]

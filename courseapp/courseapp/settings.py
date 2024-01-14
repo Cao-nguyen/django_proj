@@ -28,6 +28,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+client_id = "rsi9z03G4gYp3sWxwQYkAxr3lJafdYRO8kYz9Fw0"
+client_secret = "8ZJXxFtcSxWHULhRbVNbLtRaQ9dAxasIOyQLqz29ucXjt8L7Ap85RG2KB0wKIKf9yCHxeVNLhH5fqEleKtUsJspTbLlZ0A33ZgEuiq8DvyGI66FJNY9DKZB1nfOHLkoz"
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,12 +43,21 @@ INSTALLED_APPS = (
     'ckeditor_uploader',  # upload image in richtextbox
     'rest_framework',
     'oauth2_provider',
+    'cloudinary',
     'drf_yasg'
+)
+
+import cloudinary
+
+cloudinary.config(
+    cloud_name="dndakokcz",
+    api_key="654943155445479",
+    api_secret="Orf7PiRmpS7T3HPdEUl36nQUraU"
 )
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': '2',
+    'PAGE_SIZE': '4',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     )

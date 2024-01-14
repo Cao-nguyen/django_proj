@@ -1,5 +1,5 @@
-from rest_framework.serializers import ModelSerializer
-from .models import Course, Category, User
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from .models import Course, Category, User, Tag, Lesson
 
 
 class CategorySerializer(ModelSerializer):
@@ -8,16 +8,43 @@ class CategorySerializer(ModelSerializer):
         fields = ["id", "name"]
 
 
-class CourseSerializer(ModelSerializer):
+class TagSerializer(ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id', 'name']
+
+
+class BaseSerializer(ModelSerializer):
+    image = SerializerMethodField(source='image')
+    tags = TagSerializer(many=True)
+
+    def get_image(self, course):
+        if course.image:
+            path = "/static/%s" % course.image.name
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(path)
+            return path
+
+
+class CourseSerializer(BaseSerializer):
+    image = SerializerMethodField(source='image')
+    tags = TagSerializer(many=True)
+
     class Meta:
         model = Course
-        fields = ["id", "subject", "created_date", "description", "image", "active", "category"]
+        fields = ["id", "subject", "created_date", "description", "image", "active", "category", 'tags']
 
 
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'password', 'username', 'email', 'is_active']
+        fields = ['id', 'password', 'username', 'email', 'is_active', 'avatar']
+        extra_kwargs = {
+            'password': {
+                'write_only': True
+            }
+        }
 
     def create(self, validated_data):
         data = validated_data.copy()
@@ -25,3 +52,9 @@ class UserSerializer(ModelSerializer):
         user.set_password(user.password)
         user.save()
         return user
+
+
+class LessonSerializer(BaseSerializer):
+    class Meta:
+        model = Lesson
+        fields = ['id', 'subject', 'content', 'image', 'course']
