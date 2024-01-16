@@ -28,8 +28,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-client_id = "rsi9z03G4gYp3sWxwQYkAxr3lJafdYRO8kYz9Fw0"
-client_secret = "8ZJXxFtcSxWHULhRbVNbLtRaQ9dAxasIOyQLqz29ucXjt8L7Ap85RG2KB0wKIKf9yCHxeVNLhH5fqEleKtUsJspTbLlZ0A33ZgEuiq8DvyGI66FJNY9DKZB1nfOHLkoz"
+client_id = "fHIZqeKeg66DuBmPTQsBrK50TaV3PRbd5mycQJuv"
+client_secret = "HGbj3pnrcDX6ScloAQr4oOgKxv7AgT2pLuAugQKzWuthMe7Ch9pLxZO7ISaiMF33XvliOHuoqXVyMapaNkVOJxO5HyLNmKLjJe6ZrZ5i7giNpNHOTHcEVe8NXjFLoDKk"
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -146,3 +146,7 @@ STATIC_URL = 'static/'
 MEDIA_ROOT = '%s/courses/static/' % BASE_DIR
 CKEDITOR_UPLOAD_PATH = "ckeditor/images/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+}

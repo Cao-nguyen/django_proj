@@ -74,6 +74,9 @@ class Comment(Interaction):
 class Like(Interaction):
     active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return str(self.user) + " " + str(self.lesson) + " " + str(self.active)
+
     class Meta:
         unique_together = ('user', 'lesson')
 
