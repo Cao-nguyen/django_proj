@@ -3,8 +3,15 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/django_v1" />
+      <excludeFolder url="file://$MODULE_DIR$/env" />
+      <excludeFolder url="file://$MODULE_DIR$/djangoenv" />
+      <excludeFolder url="file://$MODULE_DIR$/envi" />
+      <excludeFolder url="file://$MODULE_DIR$/enviro" />
+      <excludeFolder url="file://$MODULE_DIR$/environ" />
+      <excludeFolder url="file://$MODULE_DIR$/enve" />
+      <excludeFolder url="file://$MODULE_DIR$/envn" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (django_proj)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (env)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
